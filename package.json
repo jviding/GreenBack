@@ -1,0 +1,9 @@
+{
+"name": "Greenhouse",
+"version": "0.0.1",
+"author": "mr. Jasu",
+"dependencies": {
+	"serialport": "latest",
+	"firebase": "latest"
+}
+}
