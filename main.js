@@ -55,4 +55,4 @@ setInterval(function() {
 		//fixYesterday('/lux');
 		day = newDay;
 	}
-}, 1000*3);//1000*60*60); //every 1 hour
+}, 1000*60*60); //every 1 hour
