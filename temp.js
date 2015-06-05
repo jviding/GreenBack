@@ -15,7 +15,7 @@ module.exports = {
 function newData (temp) {
 	count++;
 	checkTemps(temp);
-	if (count == 12*5-1) { // every 5 minutes
+	if (count == 12*5) { // every 5 minutes
 		toFirebase();
 		resetVals();
 	}

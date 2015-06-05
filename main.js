@@ -1,6 +1,7 @@
 var Sound = require('./sounds');
 var Temp = require('./temp');
 var Humid = require('./humid');
+var Lux = require('./lux');
 var Firebase = require('./firebase');
 var SerialPort = require("serialport").SerialPort;
 var serialPort = new SerialPort("/dev/ttyACM0", {
@@ -42,6 +43,12 @@ function setData(data) {
 		}
 		else if (data.toString().indexOf("h") != -1) {
 			Humid.setHumidity(parseFloat(data.substring(1)));
+		}
+		else if (data.toString().indexOf("i") != -1) {
+			Lux.setLight(data.substring(1));
+		}
+		else if (data.toString().indexOf("l") != -1) {
+			Lux.setLux(parseInt(data.substring(1)));
 		}
 	}
 }

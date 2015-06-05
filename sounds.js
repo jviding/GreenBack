@@ -15,7 +15,7 @@ function newSound (sound) {
 	avg += sound;
 	count++;
 	checkHigh(sound);
-	if (count === 2*60*2-1) { // every 2 minutes
+	if (count === 2*60*2) { // every 2 minutes
 		toFirebase();
 		resetVals();
 	}
