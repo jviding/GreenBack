@@ -14,7 +14,7 @@ var dataStr = '';
 var helper = '';
 
 serialPort.on("open", function () {
-  console.log('Connecting...');
+  console.log('Running...');
   serialPort.on('data', function(data) {
     newData(data);
   });
