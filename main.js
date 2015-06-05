@@ -46,7 +46,13 @@ function setData(data) {
 			Humid.setHumidity(parseFloat(data.substring(1)));
 		}
 		else if (data.toString().indexOf("i") != -1) {
-			Lux.setLight(data.substring(1));
+			var dataStr = data.substring(1);
+			if (isNaN(parseInt(dataStr.split(' ')[0])) === false && isNaN(parseInt(dataStr.split(' ')[1])) === false) {
+  				Lux.setLight(parseInt(dataStr.split(' ')[0]), parseInt(dataStr.split(' ')[1]));
+  			}
+  			else {
+  				Error.setError(data);
+  			}
 		}
 		else if (data.toString().indexOf("l") != -1) {
 			Lux.setLux(parseInt(data.substring(1)));

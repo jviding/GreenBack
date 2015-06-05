@@ -18,10 +18,8 @@ var lmax = null;
 var lcount = 0;
 
 module.exports = {
-  setLight: function(light) { // called every 0.5 seconds // first infrared then visible
-  	if (isNaN(parseInt(light.split(' ')[0])) === false && isNaN(parseInt(light.split(' ')[1])) === false) {
-  		newLight(light.split(' ')[0], light.split(' ')[1]);
-  	}
+  setLight: function(infrared, visible) { // called every 0.5 seconds
+  	newLight(infrared, visible);
   },
   setLux: function(lux) { // called every 0.5 seconds
     newLux(lux);
