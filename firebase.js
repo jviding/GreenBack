@@ -153,8 +153,6 @@ function createVoiceData(avgTotal, count, loudest, timestamp) {
 
 function pushQuarter(data, dataset, url) {
 	var firebaseRef = new Firebase('https://radiant-heat-5119.firebaseio.com'+url);
-	console.log("Push: "+url);
-	console.log(data);
 	firebaseRef.push(data, function() {
   		removeOld(dataset, url);
   	});
@@ -162,8 +160,6 @@ function pushQuarter(data, dataset, url) {
 
 function removeOld(dataset, url) {
 	dataset.forEach(function(item) {
-		console.log("Remove:");
-		console.log(item.val());
 		var firebaseRef = new Firebase('https://radiant-heat-5119.firebaseio.com'+url+'/'+item.key());
 		firebaseRef.remove();
 	});
