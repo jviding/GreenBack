@@ -2,6 +2,7 @@ var Sound = require('./sounds');
 var Temp = require('./temp');
 var Humid = require('./humid');
 var Lux = require('./lux');
+var Error = require('./error');
 var Firebase = require('./firebase');
 var SerialPort = require("serialport").SerialPort;
 var serialPort = new SerialPort("/dev/ttyACM0", {
@@ -32,7 +33,7 @@ function newData(data) {
 
 function setData(data) {
 	if (isNaN(parseInt(data.substring(1)))) {
-		console.log("error: "+data.toString());
+		Error.setError(data);
 	} 
 	else {
 		if (data.toString().indexOf("s") != -1) {
@@ -59,7 +60,9 @@ setInterval(function() {
 		Firebase.updateYesterday('/voices');
 		Firebase.updateYesterday('/humidities');
 		Firebase.updateYesterday('/temperatures');
-		//fixYesterday('/lux');
+		Firebase.updateYesterday('/lux');
+		Firebase.updateYesterday('/infraredandvisible');
+		Firebase.updateYesterday('/errors')
 		day = newDay;
 	}
 }, 1000*60*60); //every 1 hour
