@@ -18,10 +18,10 @@ var lmax = null;
 var lcount = 0;
 
 module.exports = {
-  setLight: function(infrared, visible) { // called every 0.5 seconds
+  setLight: function(infrared, visible) { // called every 1 second
   	newLight(infrared, visible);
   },
-  setLux: function(lux) { // called every 0.5 seconds
+  setLux: function(lux) { // called every 1 second
     newLux(lux);
   }
 }
@@ -32,7 +32,7 @@ function newLight (infrared, visible) {
 	ivcount++;
 	checkHighAndLowInfra(infrared);
 	checkHighAndLowVisible(visible);
-	if (ivcount === 2*60*2) { // every 2 minutes
+	if (ivcount === 2*60) { // every 2 minutes
 		lightToFirebase();
 		resetLightVals();
 	}
@@ -42,37 +42,37 @@ function newLux (lux) {
 	lavg += lux;
 	lcount++;
 	checkHighAndLowLux(lux);
-	if (lcount === 2*60*2) { // every 2 minutes
+	if (lcount === 2*60) { // every 2 minutes
 		luxToFirebase();
 		resetLuxVals();
 	}
 }
 
 function resetLightVals() {
-	var iavg = 0;
-	var imin = null;
-	var imax = null;
-	var vavg = 0;
-	var vmin = null;
-	var vmax = null;
-	var ivcount = 0;
+	iavg = 0;
+	imin = null;
+	imax = null;
+	vavg = 0;
+	vmin = null;
+	vmax = null;
+	ivcount = 0;
 }
 
 function resetLuxVals() {
-	var lavg = 0;
-	var lmin = null;
-	var lmax = null;
-	var lcount = 0;
+	lavg = 0;
+	lmin = null;
+	lmax = null;
+	lcount = 0;
 }
 
 function lightToFirebase() {
 	var data = {
-		'infrared-average': (iavg/ivcount).toFixed(2),
-		'visible-average': (vavg/ivcount).toFixed(2),
-		'infrared-min': imin,
-		'infrared-max': imax,
-		'visible-min': vmin,
-		'visible-max': vmax,
+		'infraredAverage': (iavg/ivcount).toFixed(2),
+		'visibleAverage': (vavg/ivcount).toFixed(2),
+		'infraredMin': imin,
+		'infraredMax': imax,
+		'visibleMin': vmin,
+		'visibleMax': vmax,
 		'timestamp': new Date().getTime()
 	};
 	Firebase.addData(data, ivurl);

@@ -58,6 +58,12 @@ function checkQuarter(data, url) {
 	else if (url === '/temperatures') {
 		setTempQuarter(data,url);
 	}
+	else if (url === '/infraredandvisible') {
+		setIVQuarter(data,url);
+	}
+	else if (url === '/lux') {
+		setLuxQuarter(data,url);
+	}
 }
 
 function startUTCms() {
@@ -86,6 +92,67 @@ function setTempQuarter(dataset,url) {
 	});
 	var timestamp = dataset[parseInt((count/2).toFixed(0))-1].val()['timestamp'];
 	pushQuarter(createTempData(avgTotal,min,max,count,timestamp),dataset,url);
+}
+
+function setLuxQuarter(dataset,url) {
+	var avgTotal = 0;
+	var count = 0;
+	var min = null;
+	var max = null;
+	dataset.forEach(function(item) {
+		if (min===null || min > parseFloat(item.val()['min'])) {
+			min = parseFloat(item.val()['min']);
+		}
+		if (max===null || max < parseFloat(item.val()['max'])) {
+			max = parseFloat(item.val()['max']);
+		}
+		avgTotal += parseFloat(item.val()['average']);
+		count++;
+	});
+	var timestamp = dataset[parseInt((count/2).toFixed(0))-1].val()['timestamp'];
+	pushQuarter(createTempData(avgTotal,min,max,count,timestamp),dataset,url);
+}
+
+function setIVQuarter(dataset,url) {
+	var iavg = 0;
+	var ivcount = 0;
+	var imin = null;
+	var imax = null;
+	var vavg = 0;
+	var vmin = null;
+	var vmax = null;
+	dataset.forEach(function(item) {
+		if (imin===null || imin > parseFloat(item.val()['infraredMin'])) {
+			imin = parseFloat(item.val()['infraredMin']);
+		}
+		if (imax===null || imax < parseFloat(item.val()['infraredMax'])) {
+			imax = parseFloat(item.val()['infraredMax']);
+		}
+		if (vmin===null || vmin > parseFloat(item.val()['visibleMin'])) {
+			vmin = parseFloat(item.val()['visibleMin']);
+		}
+		if (vmax===null || vmax < parseFloat(item.val()['visibleMax'])) {
+			vmax = parseFloat(item.val()['visibleMax']);
+		}
+		iavg += parseFloat(item.val()['infraredAverage']);
+		vavg += parseFloat(item.val()['visibleAverage']);
+		ivcount++;
+	});
+	var timestamp = dataset[parseInt((ivcount/2).toFixed(0))-1].val()['timestamp'];
+	pushQuarter(createIVData(iavg,imin,imax,ivcount,vavg,vmin,vmax,timestamp),dataset,url);
+}
+
+function createIVData(iavg, imin, imax, ivcount, vavg, vmin, vmax, timestamp) {
+	var data = {
+		'infraredAverage': (iavg/ivcount).toFixed(2),
+		'infraredMax': imin,
+		'infraredMin': imax,
+		'timestamp': timestamp,
+		'visibleAverage': (vavg/ivcount).toFixed(2),
+		'visibleMax': vmax,
+		'visibleMin': vmin
+	};
+	return data;
 }
 
 function createTempData(avgTotal, min, max, count, timestamp) {

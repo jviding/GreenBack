@@ -33,7 +33,7 @@ function newData(data) {
 
 function setData(data) {
 	if (isNaN(parseInt(data.substring(1)))) {
-		Error.setError(data);
+		//Error.setError(data);
 	} 
 	else {
 		if (data.toString().indexOf("s") != -1) {
@@ -45,17 +45,18 @@ function setData(data) {
 		else if (data.toString().indexOf("h") != -1) {
 			Humid.setHumidity(parseFloat(data.substring(1)));
 		}
-		else if (data.toString().indexOf("i") != -1) {
+		else if (data.toString().indexOf("l") != -1) {
 			var dataStr = data.substring(1);
-			if (isNaN(parseInt(dataStr.split(' ')[0])) === false && isNaN(parseInt(dataStr.split(' ')[1])) === false) {
+			if (dataStr.split(' ').length === 3
+					&& isNaN(parseInt(dataStr.split(' ')[0])) === false 
+					&& isNaN(parseInt(dataStr.split(' ')[1])) === false
+					&& isNaN(parseInt(dataStr.split(' ')[2])) === false) {
   				Lux.setLight(parseInt(dataStr.split(' ')[0]), parseInt(dataStr.split(' ')[1]));
+  				Lux.setLux(parseInt(dataStr.split(' ')[2]));
   			}
   			else {
-  				Error.setError(data);
+  				//Error.setError(data);
   			}
-		}
-		else if (data.toString().indexOf("l") != -1) {
-			Lux.setLux(parseInt(data.substring(1)));
 		}
 	}
 }
