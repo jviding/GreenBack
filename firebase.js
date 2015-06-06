@@ -145,8 +145,8 @@ function setIVQuarter(dataset,url) {
 function createIVData(iavg, imin, imax, ivcount, vavg, vmin, vmax, timestamp) {
 	var data = {
 		'infraredAverage': (iavg/ivcount).toFixed(2),
-		'infraredMax': imin,
-		'infraredMin': imax,
+		'infraredMax': imax,
+		'infraredMin': imin,
 		'timestamp': timestamp,
 		'visibleAverage': (vavg/ivcount).toFixed(2),
 		'visibleMax': vmax,
