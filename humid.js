@@ -9,7 +9,9 @@ module.exports = {
 
 function toFirebase(humid) {
 	var data = {
-		'humidity': humid,
+		'average': humid,
+		'min': humid,
+		'max': humid,
 		'timestamp': new Date().getTime()
 	};
 	Firebase.addData(data,url);
