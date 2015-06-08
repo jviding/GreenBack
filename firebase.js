@@ -53,16 +53,16 @@ function checkQuarter(data, url) {
 		setVoiceQuarter(data, url);
 	}
 	else if (url === '/humidities') {
-		setHumidQuarter(data,url);
+		setAirQuarter(data,url);
 	}
 	else if (url === '/temperatures') {
-		setTempQuarter(data,url);
+		setAirQuarter(data,url);
 	}
 	else if (url === '/infraredandvisible') {
 		setIVQuarter(data,url);
 	}
 	else if (url === '/lux') {
-		setLuxQuarter(data,url);
+		setAirQuarter(data,url);
 	}
 }
 
@@ -75,7 +75,7 @@ function endUTCms() {
 	return new Date(date.getFullYear(),date.getMonth(),date.getDate()).getTime();
 }
 
-function setTempQuarter(dataset,url) {
+function setAirQuarter(dataset,url) {
 	var avgTotal = 0;
 	var count = 0;
 	var min = null;
@@ -91,26 +91,7 @@ function setTempQuarter(dataset,url) {
 		count++;
 	});
 	var timestamp = dataset[parseInt((count/2).toFixed(0))-1].val()['timestamp'];
-	pushQuarter(createTempData(avgTotal,min,max,count,timestamp),dataset,url);
-}
-
-function setLuxQuarter(dataset,url) {
-	var avgTotal = 0;
-	var count = 0;
-	var min = null;
-	var max = null;
-	dataset.forEach(function(item) {
-		if (min===null || min > parseFloat(item.val()['min'])) {
-			min = parseFloat(item.val()['min']);
-		}
-		if (max===null || max < parseFloat(item.val()['max'])) {
-			max = parseFloat(item.val()['max']);
-		}
-		avgTotal += parseFloat(item.val()['average']);
-		count++;
-	});
-	var timestamp = dataset[parseInt((count/2).toFixed(0))-1].val()['timestamp'];
-	pushQuarter(createTempData(avgTotal,min,max,count,timestamp),dataset,url);
+	pushQuarter(createAirData(avgTotal,min,max,count,timestamp),dataset,url);
 }
 
 function setIVQuarter(dataset,url) {
@@ -155,36 +136,7 @@ function createIVData(iavg, imin, imax, ivcount, vavg, vmin, vmax, timestamp) {
 	return data;
 }
 
-function createTempData(avgTotal, min, max, count, timestamp) {
-	var data = {
-		'average': (avgTotal/count).toFixed(2),
-		'min': min,
-		'max': max,
-		'timestamp': timestamp
-	};
-	return data;
-}
-
-function setHumidQuarter(dataset, url) {
-	var avgTotal = 0;
-	var count = 0;
-	var min = -1;
-	var max = -1;
-	dataset.forEach(function(item) {
-		if (max === -1 || max < parseFloat(item.val()['humidity'])) {
-			max = parseFloat(item.val()['humidity']);
-		}
-		if (min === -1 || min > parseFloat(item.val()['humidity'])) {
-			min = parseFloat(item.val()['humidity']);
-		}
-		avgTotal += parseFloat(item.val()['humidity']);
-		count ++;
-	});
-	var timestamp = dataset[parseInt((count/2).toFixed(0))-1].val()['timestamp'];
-	pushQuarter(createHumidData(avgTotal,min,max,count,timestamp),dataset,url);
-}
-
-function createHumidData(avgTotal, min, max, count, timestamp) {
+function createAirData(avgTotal, min, max, count, timestamp) {
 	var data = {
 		'average': (avgTotal/count).toFixed(2),
 		'min': min,

@@ -69,7 +69,9 @@ setInterval(function() {
 		Firebase.updateYesterday('/temperatures');
 		Firebase.updateYesterday('/lux');
 		Firebase.updateYesterday('/infraredandvisible');
-		Firebase.updateYesterday('/errors')
+		//Firebase.updateYesterday('/errors')
 		day = newDay;
+		console.log(new Date());
+		console.log("Updating Firebase.");
 	}
 }, 1000*60*60); //every 1 hour
